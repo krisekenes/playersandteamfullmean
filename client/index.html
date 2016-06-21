@@ -33,7 +33,26 @@
         });
       }
       factory.create = function(player_info, callback){
-        $http.post('/players', player_info).success(function(){
+        $http.post('/players', player_info).success(function(data){
+          if(!data.status){
+            console.log(data)
+          }
+          callback()
+        })
+      }
+      factory.delete = function(id, callback){
+        console.log('/players/' + id)
+        $http.delete('/players/' + id).success(function(data){
+          callback()
+        })
+      }
+      factory.associate = function(player_id, team_id, callback){
+        $http.post('/associations/'+ player_id +'/'+ team_id).success(function(){
+          callback()
+        })
+      }
+      factory.destroyAssociation = function(player_id, callback){
+        $http.delete('/associations/'+player_id).success(function(){
           callback()
         })
       }
@@ -42,6 +61,8 @@
 
     myApp.controller('playersController', function(playerFactory, $location) {
       var self = this;
+      self.newPlayer = {}
+      self.newPlayer.j_num = 0
       var index = function(){
         playerFactory.index(function(data){
           self.players = data
@@ -54,19 +75,84 @@
         self.newPlayer = {}
       }
 
+      self.delete = function(id){
+        playerFactory.delete(id, index);
+      }
+      self.button = function(){
+        $location.url('/teams')
+      }
+
     })
     myApp.factory('teamFactory', function($http){
       var factory = {}
+      factory.index = function(callback){
+        $http.get('/teams').success(function(data){
+          callback(data)
+        });
+      }
+      factory.create = function(team_info, callback){
+        $http.post('/teams', team_info).success(function(data){
+          if(!data.status){
+            console.log(data)
+          }
+          callback()
+        })
+      }
+      factory.delete = function(id, callback){
+        console.log('/teams/' + id)
+        $http.delete('/teams/' + id).success(function(data){
+          callback()
+        })
+      }
       return factory
     })
 
 
     myApp.controller('teamsController', function(teamFactory, $location) {
       var self = this;
+      var index = function(){
+        teamFactory.index(function(data){
+          self.teams = data
+        })
+      }
+      index();
+
+      self.create = function(){
+        teamFactory.create(self.newTeam, index);
+        self.newPlayer = {}
+      }
+
+      self.delete = function(id){
+        teamFactory.delete(id, index);
+      }
+      self.button = function(){
+        $location.url('/players')
+      }
+      self.button1 = function(){
+        $location.url('/associations')
+      }
     })
 
     myApp.controller('associationsController', function(playerFactory, teamFactory, $location) {
       var self = this;
+      var teamIndex = function(){
+        teamFactory.index(function(data){
+          self.teams = data
+        })
+      }
+      teamIndex();
+      var playerIndex = function(){
+        playerFactory.index(function(data){
+          self.players = data
+        })
+      }
+      playerIndex();
+      self.associate = function(){
+        playerFactory.associate(self.association.player._id, self.association.team._id, playerIndex)
+      }
+      self.destroy = function(player){
+        playerFactory.destroyAssociation(player._id, playerIndex);
+      }
     })
 
     </script>

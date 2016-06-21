@@ -18,5 +18,5 @@ module.exports = function(){
   app.delete('/teams/:id', team.delete );
 
   app.post('/associations/:player_id/:team_id', association.create );
-
+  app.delete('/associations/:player_id', association.delete );
 }

@@ -1,1 +1,45 @@
-teams
+<div ng-controller = 'teamsController as TC'>
+  <form name = 'teamForm'>
+    Name: <input ng-model = 'TC.newTeam.name' name ='name' required ng-minlength='4'/>
+    City: <input  ng-model = 'TC.newTeam.city' name='city' required ng-minlength='4' />
+    <button ng-show = 'teamForm.$valid' ng-disabled='teamForm.$invalid' ng-click = 'TC.create()'>Create Player</button>
+  </form>
+  <div ng-show= 'teamForm.name.$touched' ng-messages = 'teamForm.name.$error'>
+    <p ng-message="minlength">The team name is too short.</p>
+    <p ng-message="required">The team name is required.</p>
+  </div>
+  <div ng-if= 'teamForm.city.$touched'ng-messages = 'teamForm.city.$error'>
+    <p ng-message="minlength">The city is too little.</p>
+    <p ng-message="required">The city is required.</p>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          Number
+        </th>
+        <th>
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat = 'team in TC.teams'>
+        <td>
+          {{team.name}}
+        </td>
+        <td>
+          {{team.city}}
+        </td>
+        <td>
+          <button ng-click = 'TC.delete(team._id)'>Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button ng-click='TC.button()'>Go to players</button>
+  <button ng-click='TC.button1()'>Go to associations</button>
+</div>

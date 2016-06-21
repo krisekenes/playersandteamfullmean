@@ -1,1 +1,35 @@
-association
+<div ng-controller = 'associationsController as AC'>
+  <select ng-model = 'AC.association.player' ng-options='player.name for player in AC.players'>
+  </select>
+  <select ng-model = 'AC.association.team' ng-options='team.name for team in AC.teams'>
+  </select>
+  <button ng-click='AC.associate()'>Assocatie!</button>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+        Team
+        </th>
+        <th>
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-show = 'player._team' ng-repeat ='player in AC.players'>
+        <td>
+          {{player.name}}
+        </td>
+        <td>
+          {{player._teawm.name}}
+        </td>
+        <td>
+          <button ng-click = 'AC.destroy(player)'>Remove Assocaition</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

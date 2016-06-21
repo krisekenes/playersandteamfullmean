@@ -1,10 +1,18 @@
 <div ng-controller = 'playersController as PC'>
-  {{PC}}
   <form name = 'playerForm'>
-    Name: <input ng-model = 'PC.newPlayer.name' />
-    J Num: <input type = 'number' ng-model = 'PC.newPlayer.j_num' />
-    <button ng-click = 'PC.create()'>Create Player</button>
+    Name: <input ng-model = 'PC.newPlayer.name' name ='name' required ng-minlength='4'/>
+    J Num: <input type = 'number' ng-model = 'PC.newPlayer.j_num' name='j_num' ng-min = '0' ng-max = '99' />
+    <button ng-show = 'playerForm.$valid' ng-disabled='playerForm.$invalid' ng-click = 'PC.create()'>Create Player</button>
   </form>
+  <div ng-show= 'playerForm.name.$touched' ng-messages = 'playerForm.name.$error'>
+    <p ng-message="minlength">The player name is too short.</p>
+    <p ng-message="required">The player name is required.</p>
+  </div>
+  <div ng-if= 'playerForm.j_num.$touched'ng-messages = 'playerForm.j_num.$error'>
+    <p ng-message="min">The j num is too little.</p>
+    <p ng-message="max">The j num is too high.</p>
+    <p ng-message="required">The j num is required.</p>
+  </div>
   <table>
     <thead>
       <tr>
@@ -13,6 +21,9 @@
         </th>
         <th>
           Number
+        </th>
+        <th>
+          Action
         </th>
       </tr>
     </thead>
@@ -24,7 +35,11 @@
         <td>
           {{player.j_num}}
         </td>
+        <td>
+          <button ng-click = 'PC.delete(player._id)'>Remove</button>
+        </td>
       </tr>
     </tbody>
   </table>
+  <button ng-click='PC.button()'>Go to teams</button>
 </div>

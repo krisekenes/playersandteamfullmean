@@ -11,20 +11,20 @@ module.exports = (function(){
     create: function(req, res){
       var player = new Player(req.body);
       player.save(function(err){
-        if(err) res.json(err)
-        res.redirect('/players')
+        if(err) res.json({'status': false, 'errors': 'Player validation failed'})
+        else res.json({'status': true})
       })
     },
     show: function(req, res){
       Player.findOne({_id: req.params.id }, function(err, player){
         if(err) res.json(err)
-        res.json(player)
+        else res.json(player)
       })
     },
     delete: function(req, res){
       Player.remove({_id: req.params.id }, function(err, player){
         if(err) res.json(err)
-        res.redirect('/players')
+        else res.json({'status': true})
       })
     },
     update: function(req, res){
@@ -35,7 +35,7 @@ module.exports = (function(){
           player.name = req.body.name
           player.save(function(err){
             if(err) res.json(err)
-            res.redirect('/players')
+            else res.json({'status': true})
           })
         }
       })

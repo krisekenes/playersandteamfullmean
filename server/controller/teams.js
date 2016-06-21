@@ -12,19 +12,19 @@ module.exports = (function(){
       var team = new Team(req.body);
       team.save(function(err){
         if(err) res.json(err)
-        res.redirect('/teams')
+        else res.json({'status': true })
       })
     },
     show: function(req, res){
       Team.findOne({_id: req.params.id }, function(err, team){
         if(err) res.json(err)
-        res.json(team)
+        else res.json({'status': true })
       })
     },
     delete: function(req, res){
       Team.remove({_id: req.params.id }, function(err, team){
         if(err) res.json(err)
-        res.redirect('/teams')
+        else res.json({'status': true })
       })
     },
     update: function(req, res){
@@ -35,7 +35,7 @@ module.exports = (function(){
           team.name = req.body.name
           team.save(function(err){
             if(err) res.json(err)
-            res.redirect('/teams')
+            else res.json({'status': true })
           })
         }
       })
