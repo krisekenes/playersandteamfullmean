@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app='myApp'>
+  <head>
+    <meta charset="utf-8">
+    <title>Teams and Players</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+    <script>
+    var myApp = angular.module('myApp', ['ngRoute', 'ngMessages'])
+
+    myApp.config(function($routeProvider){
+      $routeProvider
+      .when('/players', {
+        templateUrl: 'partials/players.html'
+      })
+      .when('/teams', {
+        templateUrl: 'partials/teams.html'
+      })
+      .when('/associations', {
+        templateUrl: 'partials/associations.html'
+      })
+      .otherwise({
+        redirectTo: '/players'
+      })
+    })
+
+    myApp.factory('playerFactory', function($http){
+      var factory = {}
+      factory.index = function(callback){
+        $http.get('/players').success(function(data){
+          callback(data)
+        });
+      }
+      factory.create = function(player_info, callback){
+        $http.post('/players', player_info).success(function(){
+          callback()
+        })
+      }
+      return factory
+    })
+
+    myApp.controller('playersController', function(playerFactory, $location) {
+      var self = this;
+      var index = function(){
+        playerFactory.index(function(data){
+          self.players = data
+        })
+      }
+      index();
+
+      self.create = function(){
+        playerFactory.create(self.newPlayer, index);
+        self.newPlayer = {}
+      }
+
+    })
+    myApp.factory('teamFactory', function($http){
+      var factory = {}
+      return factory
+    })
+
+
+    myApp.controller('teamsController', function(teamFactory, $location) {
+      var self = this;
+    })
+
+    myApp.controller('associationsController', function(playerFactory, teamFactory, $location) {
+      var self = this;
+    })
+
+    </script>
+  </head>
+  <body>
+  Hello world
+  <div ng-view=''>
+
+  </div>
+  </body>
+</html>

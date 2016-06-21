@@ -1,0 +1,30 @@
+<div ng-controller = 'playersController as PC'>
+  {{PC}}
+  <form name = 'playerForm'>
+    Name: <input ng-model = 'PC.newPlayer.name' />
+    J Num: <input type = 'number' ng-model = 'PC.newPlayer.j_num' />
+    <button ng-click = 'PC.create()'>Create Player</button>
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          Number
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat = 'player in PC.players'>
+        <td>
+          {{player.name}}
+        </td>
+        <td>
+          {{player.j_num}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
