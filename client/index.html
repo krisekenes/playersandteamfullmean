@@ -146,6 +146,9 @@
           self.players = data
         })
       }
+      self.button = function(){
+        $location.url('/players')
+      }
       playerIndex();
       self.associate = function(){
         playerFactory.associate(self.association.player._id, self.association.team._id, playerIndex)
