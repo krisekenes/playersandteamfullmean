@@ -2,7 +2,7 @@
   <form name = 'teamForm'>
     Name: <input ng-model = 'TC.newTeam.name' name ='name' required ng-minlength='4'/>
     City: <input  ng-model = 'TC.newTeam.city' name='city' required ng-minlength='4' />
-    <button ng-show = 'teamForm.$valid' ng-disabled='teamForm.$invalid' ng-click = 'TC.create()'>Create Player</button>
+    <button ng-show = 'teamForm.$valid' ng-disabled='teamForm.$invalid' ng-click = 'TC.create()'>Create Team</button>
   </form>
   <div ng-show= 'teamForm.name.$touched' ng-messages = 'teamForm.name.$error'>
     <p ng-message="minlength">The team name is too short.</p>
@@ -16,10 +16,10 @@
     <thead>
       <tr>
         <th>
-          Name
+          Team Name
         </th>
         <th>
-          Number
+          City
         </th>
         <th>
           Action
